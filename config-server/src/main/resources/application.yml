@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    profiles:
+      active: default
+    config:
+      import: "optional:configserver:http://localhost:7777"
+      server:
+        git:
+          uri: https://github.com/davidqui/microservice-configs.git
+          default-label: main
+          clone-on-start: true
+          username: davidqui
+          password: ${GIT_TOKEN}
+server:
+  port: 7777
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registerWithEureka: true
+    fetchRegistry: true
+
+
+#spring.config.import: optional:configserver:http://localhost:7777
