@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.util.Set;
+
 @Configuration
 public class GatewayBeans {
     @Bean
@@ -45,6 +47,13 @@ public class GatewayBeans {
                 .routes()
                 .route(route -> route
                         .path("/companies-crud/company/**")
+                        .filters(filter ->{
+                            filter.circuitBreaker(config -> config
+                                    .setName("gateway-cb")
+                                    .setStatusCodes(Set.of("500", "400"))
+                                    .setFallbackUri("forward:/companies-crud-fallback/company/*"));
+                            return filter;
+                        })
                         .uri("lb://companies-crud")
                 ).
                 route(route -> route
