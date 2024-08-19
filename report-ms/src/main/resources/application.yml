@@ -9,7 +9,6 @@ cloud:
   stream:
     kafka:
       brokers: localhost:9092
-
 server:
   servlet:
     context-path: /report-ms
