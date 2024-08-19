@@ -24,7 +24,7 @@ public class CompanyController {
     @Operation(summary = "get a company given a company name")
     @GetMapping(path = "{name}")
     public ResponseEntity<Company> get(@PathVariable String name){
-        log.info("GET: company{}", name);
+       log.info("GET: company{}", name);
         return ResponseEntity.ok(companyService.readByName(name));
     }
 

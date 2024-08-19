@@ -4,9 +4,11 @@ import com.netflix.discovery.EurekaClient;
 import com.quijano.reportms.helpers.ReportHelper;
 import com.quijano.reportms.models.Company;
 import com.quijano.reportms.models.WebSite;
+import com.quijano.reportms.repositories.CompaniesFallbackRepository;
 import com.quijano.reportms.repositories.CompaniesRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +26,17 @@ public class ReportServiceImpl implements ReportService{
 
     private final CompaniesRepository companiesRepository;
     private final ReportHelper reportHelper;
+    private final CompaniesFallbackRepository fallbackRepository;
+    private final Resilience4JCircuitBreakerFactory circuitBreakerFactory;
 
     @Override
     public String makeReport(String name) {
-       return reportHelper.readTemplate(this.companiesRepository.getByName(name).orElseThrow());
+       var circuitBreaker = circuitBreakerFactory.create("compamies-circuitBreaker");
+
+       return circuitBreaker.run(
+               () -> this.makeReportMain(name),
+               throwable -> this.makeReportFallback(name, throwable)
+       );
     }
 
     @Override
@@ -55,5 +64,14 @@ public class ReportServiceImpl implements ReportService{
         this.companiesRepository.deleteByName(name);
         log.info("Deleted company: {}", name);
 
+    }
+
+
+    private String makeReportMain(String name) {
+        return reportHelper.readTemplate(this.companiesRepository.getByName(name).orElseThrow());
+    }
+    private String makeReportFallback(String name, Throwable error) {
+        log.warn(error.getMessage());
+        return reportHelper.readTemplate(this.fallbackRepository.getByName(name));
     }
 }

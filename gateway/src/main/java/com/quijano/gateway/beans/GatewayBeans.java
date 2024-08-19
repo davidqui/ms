@@ -37,4 +37,19 @@ public class GatewayBeans {
                         .uri("lb://report-ms")
                 ).build();
     }
+
+    @Bean
+    @Profile(value = "eureka-on-cb")
+    public RouteLocator routeLocatorEurekaOnCB(RouteLocatorBuilder builder){
+        return builder
+                .routes()
+                .route(route -> route
+                        .path("/companies-crud/company/**")
+                        .uri("lb://companies-crud")
+                ).
+                route(route -> route
+                        .path("/report-ms/report/**")
+                        .uri("lb://report-ms")
+                ).build();
+    }
 }
