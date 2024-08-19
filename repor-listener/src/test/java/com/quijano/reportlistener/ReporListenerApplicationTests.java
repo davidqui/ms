@@ -1,4 +1,4 @@
-package com.quijano.repor_listener;
+package com.quijano.reportlistener;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

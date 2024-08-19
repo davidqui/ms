@@ -1,4 +1,4 @@
-package com.quijano.repor_listener;
+package com.quijano.reportlistener;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
