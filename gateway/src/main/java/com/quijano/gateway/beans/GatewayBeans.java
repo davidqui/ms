@@ -50,6 +50,11 @@ public class GatewayBeans {
                 route(route -> route
                         .path("/report-ms/report/**")
                         .uri("lb://report-ms")
-                ).build();
+                )
+                .route(route -> route
+                .path("/companies-crud-fallback/company/**")
+                .uri("lb://companies-crud-fallback")
+        )
+                .build();
     }
 }
