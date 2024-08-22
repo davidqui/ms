@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.quijano</groupId>
-	<artifactId>repor-listener</artifactId>
+	<artifactId>report-listener</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>repor-listener</name>
 	<description>Demo project for Spring Boot</description>
