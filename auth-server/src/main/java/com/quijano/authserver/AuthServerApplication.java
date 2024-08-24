@@ -1,4 +1,4 @@
-package com.quijano.auth_server;
+package com.quijano.authserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
