@@ -2,6 +2,8 @@ package com.quijano.companiescrud.services;
 import com.quijano.companiescrud.entities.Category;
 import com.quijano.companiescrud.entities.Company;
 import com.quijano.companiescrud.repositories.CompanyRepository;
+
+import io.micrometer.tracing.Tracer;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import java.util.Objects;
 public class CompanyServiceImpl implements CompanyService{
 
     private final CompanyRepository companyRepository;
+    private final Tracer tracer;
     /**
      * @param company
      * @return
@@ -36,6 +39,12 @@ public class CompanyServiceImpl implements CompanyService{
      */
     @Override
     public Company readByName(String name) {
+        var spam = tracer.nextSpan().name("readByName");
+        try(Tracer.SpanInScope spanInScope = this.tracer.withSpan(spam.start())){
+            log.info("Betting company from DB");
+        }finally {
+            spam.end();
+        }
         return this.companyRepository.findByName(name)
                 .orElseThrow(() -> new NoSuchElementException("Company not found"));
     }
