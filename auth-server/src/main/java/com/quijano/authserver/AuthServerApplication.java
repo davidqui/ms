@@ -9,10 +9,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 @EntityScan(basePackages = "com.quijano.authserver.entities")
-public class AuthServerApplication implements CommandLineRunner {
+public class AuthServerApplication {
 
-	@Autowired
-	private BCryptPasswordEncoder encoder;
+	/*@Autowired
+	private BCryptPasswordEncoder encoder;*/
 
 	public static void main(String[] args) {
 		SpringApplication.run(AuthServerApplication.class, args);
@@ -20,12 +20,8 @@ public class AuthServerApplication implements CommandLineRunner {
 
 
 	/**
-	 * @param args
-	 * @throws Exception
-	 */
-	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("Password: " + this.encoder.encode("secret"));
 
-	}
+	}*/
 }

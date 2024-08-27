@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
 
-    @PostMapping(path = "login") // password secret $2a$10$1tj6AlXWVnsIpuuq1CDTPOD38B4wIXTWmzspVipx29XHc4NLXBkGi
+    @PostMapping(path = "login") // password administradorDB
     public ResponseEntity<TokenDto> jwtCreate(@RequestBody UserDto user){
         return ResponseEntity.ok(this.authService.login(user));
     }
