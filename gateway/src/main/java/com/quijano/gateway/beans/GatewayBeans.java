@@ -96,7 +96,12 @@ public class GatewayBeans {
                 )
                 .route(route -> route
                         .path("/companies-crud-fallback/company/**")
+                        .filters(filter -> filter.filter(this.authFilter)) // Se agrega el filtro
                         .uri("lb://companies-crud-fallback")
+                )
+                .route(route -> route
+                        .path("/auth-server/auth/**")
+                        .uri("lb://auth-server")
                 )
                 .build();
     }
